@@ -1,11 +1,35 @@
 const express = require("express");
 const { connectToMongoDB } = require("./connection");
 const urlRoute = require("./routes/url");
+const URL = require("./models/url");
+
 const app = express();
 const PORT = 8001;
+
+// MiddleWare for JSON Input
+app.use(express.json());
 
 connectToMongoDB("mongodb://localhost:27017/short-url").then(() =>
   console.log("MongoDb connected")
 );
+
 app.use("/url", urlRoute);
+
+app.get("/:shortId", async (req, res) => {
+  const shortId = req.params.shortId;
+  const entry = await URL.findOneAndUpdate(
+    {
+      shortId,
+    },
+    {
+      $push: {
+        visitHistory: {
+          timeStamp: Date.now(),
+        },
+      },
+    },
+    { new: true }
+  );
+  res.redirect(entry.redirectedURL);
+});
 app.listen(PORT, () => console.log(`Server started at port : ${PORT} `));
