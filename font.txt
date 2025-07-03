@@ -1,9 +1,0 @@
-<style>
-        body {
-            font-family: 'Roboto Mono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
-        }
-
-        button:hover {
-            cursor: pointer;
-        }
-</style>
