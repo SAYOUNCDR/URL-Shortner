@@ -22,7 +22,7 @@
         <p>URL Generated : http://localhost:8001/<%= id %>
         </p>
         <% } %>
-            <form action="/url" method="POST">
+            <form action="/" method="POST">
                 <div>
                     <label for="">Enter Your Original URL</label>
                     <input type="text" name="url" id="" placeholder="https://example.com">
@@ -33,7 +33,7 @@
             <% if(locals.urls) {%>
                 <table>
                     <thead>
-                        <th>S. No</th>
+                        <th>S.No</th>
                         <th>Short ID</th>
                         <th>Redirect</th>
                         <th>Clicks</th>
@@ -47,7 +47,7 @@
                                 <td>
                                     <%= url.shortId %>
                                 </td>
-                                <td><a href="/url/<%= url.shortId %>" target="_blank">Visit</a></td>
+                                <td><a href="/<%= url.shortId %>" target="_blank">Visit</a></td>
                                 <td>
                                     <%= url.visitHistory.length %>
                                 </td>

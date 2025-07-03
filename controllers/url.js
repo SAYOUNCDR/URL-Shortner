@@ -14,9 +14,14 @@ async function handleGenerateNewShortURL(req, res) {
     visitHistory: [],
   });
 
+  const allUrls = await URL.find({});
   return res.render("home", {
     id: shortID,
-  })
+    urls: allUrls,
+  });
+
+  // Redirect to the home page with a query parameter
+  return res.redirect(`/?id=${shortID}`);
 }
 
 async function handleGetAnalytics(req, res) {
@@ -28,7 +33,27 @@ async function handleGetAnalytics(req, res) {
   });
 }
 
+async function handleRedirect(req, res) {
+  const shortId = req.params.shortId;
+
+  try {
+    const entry = await URL.findOneAndUpdate(
+      { shortId },
+      { $push: { visitHistory: { timeStamp: Date.now() } } },
+      { new: true }
+    );
+
+    if (!entry) return res.status(404).send("Short URL not found");
+
+    return res.redirect(entry.redirectedURL);
+  } catch (error) {
+    return res.status(500).send("Internal Server Error");
+  }
+}
+
+
 module.exports = {
   handleGenerateNewShortURL,
   handleGetAnalytics,
+  handleRedirect,
 };
