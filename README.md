@@ -23,7 +23,7 @@ A simple and efficient URL Shortener service that takes in a valid long URL and 
 
 ## API Routes
 
-- `POST /url`  
+- `POST /`  
   Generates a new short URL and returns the shortened URL in the format:  
   `example.com/random-id`
 
